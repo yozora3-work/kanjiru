@@ -1,0 +1,25 @@
+.card-container {
+  justify-self: center;
+  text-align: center;
+  margin: 5rem 15rem;
+}
+.card {
+  height: 25rem;
+  min-width: 40rem;
+  overflow-y: auto;
+  font-size: x-large;
+  padding: 0rem 2rem;
+  border: solid;
+}
+.card-answer-container {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 1.5rem;
+}
+
+.answer-correct {
+  color: green;
+}
+.answer-wrong {
+  color: red;
+}

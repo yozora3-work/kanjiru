@@ -1,0 +1,30 @@
+button {
+  min-width: 8rem;
+  min-height: 2rem;
+  border-radius: 1rem;
+  font-weight: 400;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+:disabled {
+  opacity: 50%;
+}
+
+.button-ui-action {
+  background-color: var(--color-green-0);
+}
+.button-ui-action:hover {
+  background-color: var(--color-green-1);
+}
+
+.button-ui-danger {
+  background-color: var(--color-red-0);
+}
+.button-ui-danger:hover {
+  background-color: var(--color-red-1);
+}

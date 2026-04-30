@@ -1,0 +1,19 @@
+.level-selector-list {
+  column-count: 6;
+  padding: 0.5rem;
+  border: solid var(--color-grey-200);
+}
+.level-item {
+  display: inline-block;
+  width: 5rem;
+}
+.select-container {
+  margin: 0 5rem;
+}
+.select-container > div {
+  justify-content: space-around;
+  display: inline-block;
+  column-count: 2;
+  width: 100%;
+  margin: 0 2rem;
+}
