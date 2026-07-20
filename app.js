@@ -46,8 +46,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
 app.post("/api/cards", async (req, res, next) => {
   try {
     const data = await getData(db, req.body);

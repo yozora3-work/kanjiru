@@ -1,6 +1,7 @@
 import { createRequire } from "module";
 import path from "path";
 import process from "node:process";
+import fs from "fs";
 
 const require = createRequire(import.meta.url);
 
@@ -22,6 +23,37 @@ const port = 5173;
 const server = app.listen(port, () =>
   console.log(`app running on port ${port}...`),
 );
+
+app.get("/api/debug/db", async (req, res) => {
+  try {
+    console.log("=== Debug Database ===");
+    console.log("Current directory:", process.cwd());
+    console.log("Files:", fs.readdirSync("."));
+
+    // Check if database exists
+    const dbPaths = [
+      "dbtest.db",
+      "/tmp/dbtest.db",
+      path.join(process.cwd(), "dbtest.db"),
+    ];
+
+    const results = {};
+    for (const dbPath of dbPaths) {
+      results[dbPath] = fs.existsSync(dbPath);
+    }
+
+    res.status(200).json({
+      status: "success",
+      cwd: process.cwd(),
+      files: fs.readdirSync("."),
+      databaseExists: results,
+      nodeVersion: process.version,
+      env: process.env.NODE_ENV,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // process.on("unhandledRejection", (err) => {
 //   console.error(err.name, err.message);
