@@ -15,7 +15,15 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("dbtest.db");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+app.options("/api/cards", cors());
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
@@ -29,6 +37,8 @@ app.use(
     extended: false,
   }),
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.post("/api/cards", async (req, res, next) => {
   try {
