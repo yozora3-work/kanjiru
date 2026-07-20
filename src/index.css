@@ -3,6 +3,7 @@ html,
 #root {
   margin: 0;
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -94,13 +95,13 @@ a:hover {
   color: green;
 }
 .container-content {
-  margin: 2rem 5rem;
+  margin: 5% 10%;
   height: 100%;
 }
 
 .container-parent {
   max-width: inherit;
-  min-width: calc(400px - 5rem);
+  /* min-width: calc(400px - 5rem); */
   height: max-content;
 }
 
@@ -210,7 +211,6 @@ input:focus {
   100% {
     background-color: #0000001f;
   }
-
 }
 
 .regular-word:hover {

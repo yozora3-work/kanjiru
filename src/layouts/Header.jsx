@@ -5,13 +5,12 @@ const StyledHeader = styled.header`
   padding: 1.2rem 5rem 1.2rem 5rem;
   border-bottom: 1px solid var(--color-grey-200);
 
-  display: flex;
+  /* display: flex; */
   gap: 2.4rem;
   align-items: center;
   justify-content: space-around;
 
   .navbar {
-    width: 100%;
     display: flex;
     gap: 2.4rem;
     align-items: center;
@@ -22,8 +21,9 @@ const StyledHeader = styled.header`
     font-size: 1.5rem;
     font-weight: bold;
   }
-  .navbar .links {
+  .links {
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
   }
 `;
