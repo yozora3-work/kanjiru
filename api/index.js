@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import process from "process";
 import sqlite3 from "sqlite3";
+import { getData } from "../src/api/getData";
 
 const app = express();
 
@@ -152,35 +153,14 @@ app.get("/api/test-db", (req, res) => {
 });
 
 // POST /api/cards
-app.post("/api/cards", (req, res) => {
+app.post("/api/cards", async (req, res) => {
   try {
-    console.log("POST /api/cards received:", req.body);
     const db = getDb();
-
-    // Insert into database
-    const data = JSON.stringify(req.body);
-    db.run("INSERT INTO testData (data) VALUES (?)", [data], function (err) {
-      db.close();
-      if (err) {
-        console.error("Insert error:", err);
-        return res.status(500).json({
-          status: "error",
-          message: err.message,
-        });
-      }
-
-      res.json({
-        status: "success",
-        data: { id: this.lastID, ...req.body },
-        message: "Card created successfully",
-      });
-    });
+    const data = await getData(db, req.body);
+    db.close();
+    res.json({ status: "success", data });
   } catch (error) {
-    console.error("POST error:", error);
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
+    // handle error
   }
 });
 
