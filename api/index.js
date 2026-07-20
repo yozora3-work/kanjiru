@@ -1,5 +1,10 @@
 import express from "express";
-import process from "node:process";
+import path from "path";
+import fs from "fs";
+import process from "process";
+
+// Import SQLite
+import sqlite3 from "sqlite3";
 
 const app = express();
 
@@ -20,66 +25,164 @@ app.use((req, res, next) => {
   next();
 });
 
-// Test endpoint
-app.get("/api/test", (req, res) => {
-  res.json({
-    status: "success",
-    message: "API is working!",
-    timestamp: new Date().toISOString(),
-  });
+// Database helper
+const getDb = () => {
+  try {
+    // Try to find database
+    const paths = [
+      "/tmp/dbtest.db",
+      path.join(process.cwd(), "dbtest.db"),
+      path.join(process.cwd(), "..", "dbtest.db"),
+    ];
+
+    let dbPath = paths.find((p) => fs.existsSync(p));
+
+    // If no database found, create one in /tmp
+    if (!dbPath) {
+      dbPath = "/tmp/dbtest.db";
+      console.log("Creating new database at:", dbPath);
+    }
+
+    console.log("Using database at:", dbPath);
+
+    const db = new sqlite3.Database(dbPath, (err) => {
+      if (err) {
+        console.error("Database error:", err.message);
+      } else {
+        console.log("Connected to database");
+      }
+    });
+
+    return db;
+  } catch (error) {
+    console.error("Error connecting to database:", error);
+    throw error;
+  }
+};
+
+// Debug endpoint
+app.get("/api/debug/db", (req, res) => {
+  try {
+    const dbPaths = [
+      "dbtest.db",
+      "/tmp/dbtest.db",
+      path.join(process.cwd(), "dbtest.db"),
+    ];
+
+    const results = {};
+    dbPaths.forEach((p) => {
+      results[p] = fs.existsSync(p);
+    });
+
+    res.json({
+      status: "success",
+      cwd: process.cwd(),
+      dbExists: results,
+      files: fs.readdirSync(".").slice(0, 10),
+      isVercel: !!process.env.VERCEL,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+      stack: error.stack,
+    });
+  }
 });
 
-// Your routes (without database for now)
+// Test endpoint with database
+app.get("/api/test-db", (req, res) => {
+  try {
+    const db = getDb();
+
+    // Simple query to test
+    db.get("SELECT 1 as test", (err, row) => {
+      db.close();
+      if (err) {
+        res.json({
+          status: "error",
+          message: err.message,
+        });
+      } else {
+        res.json({
+          status: "success",
+          data: row,
+          message: "Database query successful",
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+// Your API routes (without your custom functions for now)
 app.post("/api/cards", (req, res) => {
-  console.log("POST /api/cards received:", req.body);
-  res.json({
-    status: "success",
-    data: req.body,
-    message: "Card created (no DB)",
-  });
+  try {
+    console.log("POST /api/cards received:", req.body);
+    const db = getDb();
+
+    // Simple insert example
+    db.run(
+      "INSERT INTO cards (data) VALUES (?)",
+      [JSON.stringify(req.body)],
+      function (err) {
+        db.close();
+        if (err) {
+          res.json({
+            status: "error",
+            message: err.message,
+          });
+        } else {
+          res.json({
+            status: "success",
+            data: { id: this.lastID, ...req.body },
+            message: "Card created",
+          });
+        }
+      },
+    );
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
 });
 
 app.get("/api/cards/:id", (req, res) => {
-  console.log("GET /api/cards/:id", req.params.id);
-  res.json({
-    status: "success",
-    data: { id: req.params.id },
-    message: "Card found (no DB)",
-  });
-});
+  try {
+    console.log("GET /api/cards/:id", req.params.id);
+    const db = getDb();
 
-app.put("/api/cards", (req, res) => {
-  res.json({
-    status: "success",
-    data: req.body,
-    message: "Card updated (no DB)",
-  });
-});
-
-app.patch("/api/cards/:id", (req, res) => {
-  res.json({
-    status: "success",
-    data: { id: req.params.id, ...req.body },
-    message: "Card patched (no DB)",
-  });
-});
-
-app.delete("/api/cards/:id", (req, res) => {
-  res.json({
-    status: "success",
-    data: { id: req.params.id },
-    message: "Card deleted (no DB)",
-  });
-});
-
-// Debug endpoint to check database
-app.get("/api/debug/db", (req, res) => {
-  res.json({
-    status: "success",
-    message: "Debug endpoint working",
-    cwd: process.cwd(),
-    nodeVersion: process.version,
-  });
+    db.get("SELECT * FROM cards WHERE id = ?", [req.params.id], (err, row) => {
+      db.close();
+      if (err) {
+        res.json({
+          status: "error",
+          message: err.message,
+        });
+      } else if (!row) {
+        res.status(404).json({
+          status: "fail",
+          message: "Card not found",
+        });
+      } else {
+        res.json({
+          status: "success",
+          data: row,
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
 });
 
 // 404 handler
