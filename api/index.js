@@ -4,14 +4,17 @@ import fs from "fs";
 import process from "process";
 import sqlite3 from "sqlite3";
 
-// ✅ Make sure this path is correct
-// If your getData.js is in src/api/
+// ✅ Import your data functions
 import {
   getData,
   updateData,
   deleteData,
   createData,
 } from "../src/api/getData.js";
+
+console.log("✅ getData functions imported successfully");
+console.log("getData type:", typeof getData);
+console.log("createData type:", typeof createData);
 
 const app = express();
 
@@ -64,7 +67,7 @@ const getDb = () => {
   }
 };
 
-// Debug endpoint - test without getData
+// Debug endpoint
 app.get("/api/debug/db", (req, res) => {
   try {
     const dbPath = path.join(process.cwd(), "dbtest.db");
@@ -77,16 +80,19 @@ app.get("/api/debug/db", (req, res) => {
       cwd: process.cwd(),
       isVercel: !!process.env.VERCEL,
       files: fs.readdirSync(".").slice(0, 10),
+      hasGetData: typeof getData === "function",
+      hasCreateData: typeof createData === "function",
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
       message: error.message,
+      stack: error.stack,
     });
   }
 });
 
-// ✅ TEST: Simple POST without getData
+// ✅ Test POST without getData
 app.post("/api/cards-test", (req, res) => {
   try {
     console.log("Test POST received:", req.body);
@@ -118,15 +124,15 @@ app.post("/api/cards-test", (req, res) => {
   }
 });
 
-// ✅ Your actual POST endpoint with getData
+// ✅ POST with getData - Using the imported function
 app.post("/api/cards", async (req, res, next) => {
   try {
     console.log("POST /api/cards received:", req.body);
-    console.log("getData function:", typeof getData);
+    console.log("getData type:", typeof getData);
 
-    // Test if getData exists
+    // Check if getData exists
     if (typeof getData !== "function") {
-      throw new Error("getData is not a function. Import might be failing.");
+      throw new Error(`getData is not a function. Type: ${typeof getData}`);
     }
 
     const db = getDb();
@@ -140,18 +146,18 @@ app.post("/api/cards", async (req, res, next) => {
   } catch (err) {
     console.error("❌ Error in POST /api/cards:", err);
     console.error("Stack:", err.stack);
-    err.statusCode = 404;
+    err.statusCode = err.statusCode || 500;
     next(err);
   }
 });
 
-// GET endpoint with getData
+// GET with getData
 app.get("/api/cards/:id", async (req, res, next) => {
   try {
     console.log("GET /api/cards/:id", req.params.id);
 
     if (typeof getData !== "function") {
-      throw new Error("getData is not a function");
+      throw new Error(`getData is not a function. Type: ${typeof getData}`);
     }
 
     const db = getDb();
@@ -168,19 +174,21 @@ app.get("/api/cards/:id", async (req, res, next) => {
       data,
     });
   } catch (err) {
-    console.error("❌ Error in GET /api/cards/:id:", err);
-    err.statusCode = 404;
+    console.error("❌ Error in GET:", err);
+    err.statusCode = err.statusCode || 500;
     next(err);
   }
 });
 
-// PUT endpoint
+// PUT with createData
 app.put("/api/cards", async (req, res, next) => {
   try {
     console.log("PUT /api/cards received:", req.body);
 
     if (typeof createData !== "function") {
-      throw new Error("createData is not a function");
+      throw new Error(
+        `createData is not a function. Type: ${typeof createData}`,
+      );
     }
 
     const db = getDb();
@@ -192,19 +200,21 @@ app.put("/api/cards", async (req, res, next) => {
       data,
     });
   } catch (err) {
-    console.error("❌ Error in PUT /api/cards:", err);
-    err.statusCode = 404;
+    console.error("❌ Error in PUT:", err);
+    err.statusCode = err.statusCode || 500;
     next(err);
   }
 });
 
-// PATCH endpoint
+// PATCH with updateData
 app.patch("/api/cards/:id", async (req, res, next) => {
   try {
     console.log("PATCH /api/cards/:id", req.params.id, req.body);
 
     if (typeof updateData !== "function") {
-      throw new Error("updateData is not a function");
+      throw new Error(
+        `updateData is not a function. Type: ${typeof updateData}`,
+      );
     }
 
     const db = getDb();
@@ -216,19 +226,21 @@ app.patch("/api/cards/:id", async (req, res, next) => {
       data,
     });
   } catch (err) {
-    console.error("❌ Error in PATCH /api/cards/:id:", err);
-    err.statusCode = 404;
+    console.error("❌ Error in PATCH:", err);
+    err.statusCode = err.statusCode || 500;
     next(err);
   }
 });
 
-// DELETE endpoint
+// DELETE with deleteData
 app.delete("/api/cards/:id", async (req, res, next) => {
   try {
     console.log("DELETE /api/cards/:id", req.params.id);
 
     if (typeof deleteData !== "function") {
-      throw new Error("deleteData is not a function");
+      throw new Error(
+        `deleteData is not a function. Type: ${typeof deleteData}`,
+      );
     }
 
     const db = getDb();
@@ -240,8 +252,8 @@ app.delete("/api/cards/:id", async (req, res, next) => {
       data,
     });
   } catch (err) {
-    console.error("❌ Error in DELETE /api/cards/:id:", err);
-    err.statusCode = 404;
+    console.error("❌ Error in DELETE:", err);
+    err.statusCode = err.statusCode || 500;
     next(err);
   }
 });
