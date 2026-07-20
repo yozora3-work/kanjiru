@@ -1,10 +1,13 @@
 import { Link } from "react-router";
+import "./PageNotFound.css";
 
 function PageNotFound() {
   return (
-    <div>
-      <Link to="/">Home</Link>
-      <h1>Something went wrong</h1>
+    <div className="not-found-container">
+      <h1>Что-то пошло не так</h1>
+      <Link to="/" className="btn-home">
+        Главная
+      </Link>
     </div>
   );
 }

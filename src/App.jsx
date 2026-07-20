@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route index element={<Homepage />} />
           <Route
-            path="cards/:learn"
+            path="cards/learn"
             element={
               <Provider store={store}>
                 <CardView actionType="learn" />

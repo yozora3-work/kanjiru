@@ -1,7 +1,7 @@
 footer {
   position: relative;
-  background: #2d3748;
-  color: white;
+  background: var(--color-grey-600);
+  color: var(--color-grey-100);
   padding: 30px 40px;
   display: flex;
   justify-content: space-between;
@@ -12,20 +12,20 @@ footer {
   min-height: 20px;
 }
 
+footer a {
+  color: var(--color-grey-100);
+  text-decoration: none;
+}
+
 .footer-links {
   display: flex;
   gap: 30px;
 }
 
 .footer-link {
-  color: #a0aec0;
   cursor: pointer;
   transition: color 0.3s;
   font-size: 14px;
-}
-
-.footer-link:hover {
-  color: white;
 }
 
 .social-icons {
@@ -36,7 +36,7 @@ footer {
 .social-icon {
   width: 36px;
   height: 36px;
-  background: #4a5568;
+  background: var(--color-grey-500);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -51,6 +51,6 @@ footer {
 }
 
 .copyright {
-  color: #a0aec0;
+  color: var(--color-grey-100);
   font-size: 14px;
 }

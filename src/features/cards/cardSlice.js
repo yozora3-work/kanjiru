@@ -1,16 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react";
 
 const initialState = {
   isFormed: false,
   isAnswered: false,
   isFinished: false,
   userAnswer: "",
-  currentPage: 0,
+  currentPage: 0, //Future concept for reading page
   currentElement: 0,
   formData: {},
   hardFormData: [],
-  cardTypes: {},
 };
 
 const cardSlice = createSlice({
@@ -50,7 +48,6 @@ const cardSlice = createSlice({
         }
         if (action.payload.answerType !== "again") {
           state.isFinished = true;
-          state.isFinished = false;
         }
       }
     },

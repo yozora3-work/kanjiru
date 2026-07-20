@@ -22,7 +22,7 @@ function Card() {
   return (
     <>
       {isFinished ? (
-        <h1>Finished!</h1>
+        <h1>Завершено!</h1>
       ) : (
         <div className="card-container">
           {currentKanji.kanji && <NewKanji word={currentKanji} />}
@@ -30,12 +30,12 @@ function Card() {
           {isAnswered && (
             <div className="card-answer-container">
               <Button
-                text="Again"
+                text="Снова"
                 className="button-ui-danger"
                 onClick={() => handleAnswer("again")}
               />
               <Button
-                text="Easy"
+                text="Легко"
                 className="button-ui-action"
                 onClick={() => handleAnswer("easy")}
               />

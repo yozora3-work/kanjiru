@@ -8,8 +8,9 @@ function Homepage() {
       <Header />
       <Container>
         <h1>
-          It's a perfect time to start learning,
-          <br /> don't you think? 🎓
+          Прекрасное время, чтобы начать изучать кандзи и японский язык!
+          <br />
+          <br /> Ты так не думаешь?
         </h1>
       </Container>
       <Footer />

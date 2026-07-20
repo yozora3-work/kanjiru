@@ -1,46 +1,54 @@
 import { setFormData } from "../features/cards/cardSlice";
 import { getCards } from "../services/apiCards";
-import store from "../store";
 import Button from "../components/Button";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import InputLevels from "../components/InputLevels";
 
 async function formCardsData(formOptions) {
-  const data = await getCards(formOptions);
-  return data;
+  const formData = await getCards(formOptions);
+  return formData;
 }
 
 function ReadingForm() {
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData(e.target);
+
     //Collecting form data
-    const customStudyLevels = e.target["custom-study-levels"].value;
+    const customStudyLevels = formData.get("custom-study-levels");
 
     //Processing form data, checking for bad input
     if (!customStudyLevels) {
-      toast.error("Please select levels");
+      toast.error("Пожалуйста, выберите уровни");
       return;
     }
 
-    const formData = {
+    //Populating data
+    await formCardsData({
       customStudyLevels,
       customStudyVocab: true,
       customStudyReading: true,
-    };
-
-    //Populating data
-    const cardsFormData = await formCardsData(formData);
-
-    store.dispatch(setFormData(cardsFormData));
+    })
+      .then((data) => {
+        dispatch(setFormData(data));
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Карточки с выбранными параметрами не найдены");
+      });
   };
 
   return (
     <>
-      <h1>Select the kanji levels</h1>
+      <h1>Выберите уровни кандзи</h1>
       <form id="reading-form" onSubmit={(e) => handleSubmit(e)}>
-        <input id="custom-study-levels" />
+        <InputLevels id="custom-study-levels" />
         <div className="box-small">
-          <Button type="submit" text="Learn" className="button-ui-action" />
+          <Button type="submit" text="Изучить" className="button-ui-action" />
         </div>
       </form>
     </>

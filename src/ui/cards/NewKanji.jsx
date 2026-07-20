@@ -2,17 +2,16 @@ import { useSelector } from "react-redux";
 import store from "../../store";
 import { answerCard } from "../../features/cards/cardSlice";
 import checkAnswer from "../../services/checkAnswer";
-import { useState } from "react";
 
 function NewKanji({ word }) {
   const isAnswered = useSelector((state) => state.card.isAnswered);
-  const [answer, setAnswer] = useState("");
+  const answer = useSelector((state) => state.card.userAnswer);
 
   return (
     <div className="card">
       <h1>{word.cardType === "reading" && word.kanji}</h1>
       <h1>{word.cardType === "writing" && word.kanji_translation}</h1>
-      <p>{word.cardType.charAt(0).toUpperCase() + word.cardType.slice(1)}</p>
+      <p>{"Чтение"}</p>
       {isAnswered ? (
         <>
           {answer && word.cardType === "reading" && (
@@ -39,29 +38,29 @@ function NewKanji({ word }) {
           )}
           {word.cardType === "reading" && (
             <p>
-              <strong>Meaning: </strong>
+              <strong>Значение: </strong>
               {word.kanji_translation}
             </p>
           )}
           {word.cardType === "writing" && (
             <p>
-              <strong>Kanji: </strong>
+              <strong>Кандзи: </strong>
               {word.kanji}
             </p>
           )}
           <p>
-            <strong>On'yomi: </strong>
-            {word.kanji_readingOn} <strong>Kun'yomi: </strong>
+            <strong>Онное чтение: </strong>
+            {word.kanji_readingOn} <strong>Кунное чтение: </strong>
             {word.kanji_readingKun}
           </p>
 
           <p>
-            <strong>Radicals:</strong>
+            <strong>Радикалы:</strong>
             {`${word.radicals} (${word.radicals_memo})`}
           </p>
           <small>
             <p>
-              <strong>Meaning Mnemonic:</strong>
+              <strong>Мнемоника значения:</strong>
             </p>
             <p>{word.radicals_icon}</p>
             <p>{word.meaning_mnemonic}</p>
@@ -69,7 +68,7 @@ function NewKanji({ word }) {
               <i>{word.meaning_info}</i>
             </p>
             <p>
-              <strong>Reading Mnemonic:</strong>
+              <strong>Мнемоника чтения:</strong>
             </p>
             <p>{word.reading_mnemonic}</p>
             <p>
@@ -81,12 +80,15 @@ function NewKanji({ word }) {
         <div>
           <h2>{word.type}</h2>
           <input
-            placeholder="Answer"
+            placeholder="Ответ"
             type="text"
             value={answer}
             onChange={(e) => {
-              console.log(e.target.value);
-              setAnswer(e.target.value);
+              // setAnswer(e.target.value);
+              store.dispatch({
+                type: "card/setAnswer",
+                payload: e.target.value,
+              });
             }}
           ></input>
           <button

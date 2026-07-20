@@ -16,7 +16,7 @@ const port = 5173;
 
 // eslint-disable-next-line no-unused-vars
 const server = app.listen(port, () =>
-  console.log(`app running on port ${port}...`)
+  console.log(`app running on port ${port}...`),
 );
 
 // process.on("unhandledRejection", (err) => {

@@ -13,8 +13,10 @@ html,
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* color: rgba(255, 255, 255, 0.87);
+   */
+  color: var(--color-grey-900);
+  background-color: var(--color-grey-100);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,7 +26,7 @@ html,
   &,
   &.dark-mode {
     /* Grey */
-    --color-grey-0: #18212f;
+    /* --color-grey-0: #18212f;
     --color-grey-50: #111827;
     --color-grey-100: #1f2937;
     --color-grey-200: #374151;
@@ -34,13 +36,26 @@ html,
     --color-grey-600: #d1d5db;
     --color-grey-700: #e5e7eb;
     --color-grey-800: #f3f4f6;
-    --color-grey-900: #f9fafb;
-    --color-green-0: #54a761;
-    --color-green-1: #44864e;
-    --color-green-2: #397242;
-    --color-green-3: #2d5c34;
-    --color-red-0: #ad4646;
-    --color-red-1: #923333;
+    --color-grey-900: #f9fafb; */
+
+    --color-grey-900: #18212f;
+    --color-grey-800: #111827;
+    --color-grey-700: #1f2937;
+    --color-grey-600: #374151;
+    --color-grey-500: #4b5563;
+    --color-grey-400: #6b7280;
+    --color-grey-300: #9ca3af;
+    --color-grey-200: #d1d5db;
+    --color-grey-100: #e5e7eb;
+    --color-grey-50: #f3f4f6;
+    --color-grey-0: #f9fafb;
+
+    --color-green-3: #54a761;
+    --color-green-2: #44864e;
+    --color-green-1: #397242;
+    --color-green-0: #2d5c34;
+    --color-red-1: #ad4646;
+    --color-red-0: #923333;
   }
 }
 
@@ -84,7 +99,7 @@ a:hover {
 }
 
 .container-parent {
-  max-width: max-content;
+  max-width: inherit;
   min-width: calc(400px - 5rem);
   height: max-content;
 }
@@ -142,8 +157,62 @@ input {
   background-color: var(--color-grey-200);
   border: solid var(--color-grey-200);
   border-radius: 0.5rem;
+  color: var(--color-grey-900);
 }
 textarea:focus,
 input:focus {
   outline: solid var(--color-green-0);
+}
+
+@keyframes popFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pop-fade-element {
+  animation: popFadeIn 0.5s;
+}
+
+.vocab-main {
+  color: #923333;
+}
+
+.word-container {
+  display: inline-flex;
+  flex-direction: column;
+  /* align-items: center; */
+  position: relative;
+}
+
+.highlighted-word {
+  font-size: 0.8rem;
+  color: var(--color-red-0);
+  position: absolute;
+  top: -1rem;
+  white-space: nowrap;
+}
+
+.regular-word {
+  font-weight: bolder;
+  font-size: 16px;
+}
+
+@keyframes test {
+  0% {
+    background-color: #00000000;
+  }
+  100% {
+    background-color: #0000001f;
+  }
+
+}
+
+.regular-word:hover {
+  animation: test 0.3s forwards;
 }

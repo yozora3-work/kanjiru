@@ -4,18 +4,25 @@ import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
 import { getCards } from "../services/apiCards";
 import "./Vocabulary.css";
+import toast from "react-hot-toast";
 
 function Vocabulary() {
   const [vocabData, setVocabData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getCards({
-        customStudyLevels: 0,
+      await getCards({
+        customStudyLevels: "all",
         customStudyKanji: true,
         customStudyReading: true,
-      });
-      setVocabData(data.kanjiData.reading);
+      })
+        .then((data) => {
+          setVocabData(data.kanjiData.reading);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Ошибка при получении данных");
+        });
     };
     fetchData();
   }, []);
@@ -28,10 +35,10 @@ function Vocabulary() {
           <thead>
             <tr>
               <th></th>
-              <th>Kanji</th>
-              <th>On Reading</th>
-              <th>Kun Reading</th>
-              <th>Translation</th>
+              <th>Кандзи</th>
+              <th>Онное чтение</th>
+              <th>Кунное чтение</th>
+              <th>Перевод</th>
             </tr>
           </thead>
           <tbody>
