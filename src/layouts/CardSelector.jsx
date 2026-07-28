@@ -5,10 +5,10 @@ import store from "../store";
 import Button from "../components/Button";
 import "./CardSelector.css";
 import toast from "react-hot-toast";
+import InputLevels from "../components/InputLevels";
 
 async function formCardsData(formOptions) {
   const dataObject = await getCards(formOptions);
-  console.log(dataObject);
 
   //Create card array for reviewing
   const kanjiData = Object.values(dataObject.kanjiData).flat();
@@ -23,57 +23,85 @@ function CardSelector() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData(e.target);
+
     //Collecting form data
-    const customStudyLevels = e.target["custom-study-levels"].value;
-    const customStudyKanji = e.target["custom-study-kanji"].checked;
-    const customStudyVocab = e.target["custom-study-vocab"].checked;
-    const customStudyReading = e.target["custom-study-reading"].checked;
-    const customStudyWriting = e.target["custom-study-writing"].checked;
-
-    //Processing form data, checking for bad input
-    if (!customStudyKanji && !customStudyVocab) {
-      toast.error("Please select Kanji or Vocabulary Card type");
-      return;
-    }
-    if (!customStudyReading && !customStudyWriting) {
-      toast.error("Please select Reading or Writing Card type");
-      return;
-    }
-    if (!customStudyLevels) {
-      toast.error("Please select Levels");
-      return;
-    }
-
-    const formData = {
+    const customStudyLevels = formData.get("custom-study-levels");
+    const customStudyKanji = formData.get("custom-study-kanji") === "on";
+    const customStudyVocab = formData.get("custom-study-vocab") === "on";
+    const customStudyReading = formData.get("custom-study-reading") === "on";
+    const customStudyWriting = formData.get("custom-study-writing") === "on";
+    console.log(
       customStudyLevels,
       customStudyKanji,
       customStudyVocab,
       customStudyReading,
       customStudyWriting,
-    };
+    );
+
+    //Processing form data, checking for bad input
+    if (!customStudyKanji && !customStudyVocab) {
+      toast.error("Please select the card type: Kanji or Vocabulary");
+      return;
+    }
+    if (!customStudyReading && !customStudyWriting) {
+      toast.error("Please select the card type: Meaning or Writing");
+      return;
+    }
+    if (!customStudyLevels) {
+      toast.error("Please select levels");
+      return;
+    }
 
     //Populating data
-    const cardsFormData = await formCardsData(formData);
-
-    store.dispatch(setFormData(cardsFormData));
+    await formCardsData({
+      customStudyLevels,
+      customStudyKanji,
+      customStudyVocab,
+      customStudyReading,
+      customStudyWriting,
+    })
+      .then((data) => {
+        store.dispatch(setFormData(data));
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No cards were found with selected options");
+      });
   };
 
   return (
     <>
-      <h1>Which types of cards would you like to learn?</h1>
+      <h1>Какие карточки вы хотите изучить?</h1>
       <form onSubmit={(e) => handleSubmit(e)} className="custom-study-box">
         <div className="box-medium border-bottom">
-          <p>Study new words, or repeat already learnt.</p>
+          <p>Learning Kanji or Vocabulary</p>
           <div className="box-small">
-            <CheckboxItem id="custom-study-kanji" text="Kanji Cards" />
-            <CheckboxItem id="custom-study-vocab" text="Vocabulary Cards" />
+            <CheckboxItem
+              id="custom-study-kanji"
+              name="custom-study-kanji"
+              text="Kanji"
+            />
+            <CheckboxItem
+              id="custom-study-vocab"
+              name="custom-study-vocab"
+              text="Vocabulary"
+            />
           </div>
         </div>
         <div className="box-medium border-bottom">
-          <p>Study Kanji Reading or Writing (reverse card)</p>
+          <p>Leaning Meaning or Writing (reverse card)</p>
           <div className="box-small">
-            <CheckboxItem id="custom-study-reading" text="Reading" />
-            <CheckboxItem id="custom-study-writing" text="Writing" />
+            <CheckboxItem
+              id="custom-study-reading"
+              name="custom-study-reading"
+              text="Meaning"
+            />
+            <CheckboxItem
+              id="custom-study-writing"
+              name="custom-study-writing"
+              text="Writing"
+            />
           </div>
         </div>
         <div className="box-medium border-bottom">
@@ -83,12 +111,8 @@ function CardSelector() {
               Your current level is: <strong>10</strong>!
             </p>*/}
           <div className="box-small">
-            <input
-              min={1}
-              max={60}
-              placeholder="1,2,3...60"
-              name="custom-study-levels"
-            />
+            {/* //TODO Handle multi input, show error for bad input */}
+            <InputLevels id="custom-study-levels" />
           </div>
         </div>
         <div className="box-small">

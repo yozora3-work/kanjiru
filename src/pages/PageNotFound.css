@@ -1,0 +1,106 @@
+.btn-home {
+  /* Layout & spacing */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+
+  /* Sizing */
+  padding: 0.75rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+
+  /* Typography */
+  font-family: inherit;
+  text-decoration: none;
+
+  /* Colors & background */
+  background-color: var(--color-green-0);
+  color: white;
+
+  /* Border & shape */
+  border: none;
+  border-radius: 40px;
+
+  /* Simple transition for hover effect */
+  transition: all 0.2s ease;
+
+  /* Cursor & interaction */
+  cursor: pointer;
+
+  /* Remove default button styles */
+  line-height: 1;
+}
+
+/* Hover state — minimal but clear feedback */
+.btn-home:hover {
+  background-color: #0f172a;
+  transform: translateY(-2px);
+}
+
+/* Active/click state */
+.btn-home:active {
+  transform: translateY(1px);
+}
+
+/* Focus state for accessibility (keeps minimal outline) */
+.btn-home:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 2px;
+}
+
+/* Simple arrow icon using pure CSS pseudo-element (no external SVG/image) 
+       This keeps the button minimal and self-contained */
+.btn-home .arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+/* Arrow shape using inline SVG via background? No — we'll use a simple Unicode + transform.
+       But to be minimal and robust, we use a simple → character or inline text.
+       To keep it truly minimal CSS-only, we'll style a text arrow. */
+.btn-home .arrow-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+/* On hover, move arrow slightly to the right */
+.btn-home:hover .arrow-icon {
+  transform: translateX(3px);
+}
+
+/* For ultra-minimal, we can also support just text, but we keep structure clean.
+       The button uses flex, so children align perfectly. */
+
+/* Alternative minimal border style (optional variation - not applied by default) */
+/* If you want an outlined version just for inspiration, but main button stays filled. */
+
+/* ===== EXTRA: 'ghost' minimal variant example (uncomment if needed) ===== */
+/*
+    .btn-home-outline {
+      background: transparent;
+      color: #1e293b;
+      border: 1.5px solid #1e293b;
+    }
+    .btn-home-outline:hover {
+      background: #1e293b;
+      color: white;
+    }
+    */
+
+/* Ensure link behaves like button */
+a.btn-home {
+  text-decoration: none;
+}
+
+/* Center the content vertically and horizontally */
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height to center content */
+  gap: 1.5rem; /* Space between heading and button */
+}

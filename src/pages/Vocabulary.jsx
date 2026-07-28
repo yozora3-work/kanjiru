@@ -4,18 +4,49 @@ import Footer from "../layouts/Footer";
 import Header from "../layouts/Header";
 import { getCards } from "../services/apiCards";
 import "./Vocabulary.css";
+import toast from "react-hot-toast";
+import usePagination from "../hooks/usePagination";
 
 function Vocabulary() {
   const [vocabData, setVocabData] = useState([]);
+  const [searchField, setSearchField] = useState("");
+
+  async function searchData() {
+    const data = await getCards({
+      customStudyLevels: "all",
+      customStudyKanji: true,
+      customStudyReading: true,
+      kanji: searchField,
+    });
+    goToPage(1);
+    if (!searchField) return;
+    setVocabData(data);
+  }
+
+  const {
+    currentPage,
+    totalPages,
+    paginatedData,
+    nextPage,
+    prevPage,
+    goToPage,
+  } = usePagination(vocabData, 50);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getCards({
-        customStudyLevels: 0,
+      await getCards({
+        customStudyLevels: "all",
         customStudyKanji: true,
         customStudyReading: true,
-      });
-      setVocabData(data.kanjiData.reading);
+      })
+        .then((data) => {
+          setVocabData(data.kanjiData.reading);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Ошибка при получении данных");
+        });
     };
     fetchData();
   }, []);
@@ -24,19 +55,31 @@ function Vocabulary() {
     <>
       <Header />
       <Container>
+        <div className="search-container">
+          <input
+            className="search-input"
+            type="text"
+            value={searchField}
+            onChange={(e) => setSearchField(e.target.value)}
+            placeholder="Search"
+          />
+          <button className="search-btn" onClick={() => searchData()}>
+            Search
+          </button>
+        </div>
         <table>
           <thead>
             <tr>
               <th></th>
-              <th>Kanji</th>
-              <th>On Reading</th>
-              <th>Kun Reading</th>
-              <th>Translation</th>
+              <th>Кандзи</th>
+              <th>Онное чтение</th>
+              <th>Кунное чтение</th>
+              <th>Перевод</th>
             </tr>
           </thead>
           <tbody>
-            {vocabData &&
-              vocabData.map((card, i) => (
+            {paginatedData &&
+              paginatedData.map((card, i) => (
                 <tr key={i}>
                   <th>{card.level}</th>
                   <th>{card.kanji}</th>
@@ -47,6 +90,22 @@ function Vocabulary() {
               ))}
           </tbody>
         </table>
+        <button
+          className="pagination-btn"
+          disabled={currentPage === 1}
+          onClick={() => prevPage()}
+        >
+          Previous
+        </button>
+        <button
+          className="pagination-btn"
+          disabled={currentPage === totalPages}
+          onClick={() => {
+            nextPage();
+          }}
+        >
+          Next
+        </button>
       </Container>
       <Footer />
     </>

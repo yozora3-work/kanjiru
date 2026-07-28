@@ -1,6 +1,6 @@
 import "./Card.css";
 import NewKanji from "../ui/cards/NewKanji";
-import VocabCard from "../ui/cards/vocabCard";
+import VocabCard from "../ui/cards/VocabCard";
 import { useSelector } from "react-redux";
 import store from "../store";
 import { nextCard } from "../features/cards/cardSlice";

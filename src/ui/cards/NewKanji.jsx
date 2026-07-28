@@ -2,17 +2,26 @@ import { useSelector } from "react-redux";
 import store from "../../store";
 import { answerCard } from "../../features/cards/cardSlice";
 import checkAnswer from "../../services/checkAnswer";
-import { useState } from "react";
 
 function NewKanji({ word }) {
   const isAnswered = useSelector((state) => state.card.isAnswered);
-  const [answer, setAnswer] = useState("");
+  const answer = useSelector((state) => state.card.userAnswer);
 
   return (
     <div className="card">
-      <h1>{word.cardType === "reading" && word.kanji}</h1>
-      <h1>{word.cardType === "writing" && word.kanji_translation}</h1>
-      <p>{word.cardType.charAt(0).toUpperCase() + word.cardType.slice(1)}</p>
+      {word.cardType === "reading" && (
+        <>
+          <h1>{word.kanji}</h1>
+          <p>{"Meaning"}</p>
+        </>
+      )}
+      {word.cardType === "writing" && (
+        <>
+          <h1>{word.kanji_translation}</h1>
+          <p>{"Writing"}</p>
+        </>
+      )}
+
       {isAnswered ? (
         <>
           {answer && word.cardType === "reading" && (
@@ -50,8 +59,8 @@ function NewKanji({ word }) {
             </p>
           )}
           <p>
-            <strong>On'yomi: </strong>
-            {word.kanji_readingOn} <strong>Kun'yomi: </strong>
+            <strong>On-reading: </strong>
+            {word.kanji_readingOn} <strong>Kun-reading: </strong>
             {word.kanji_readingKun}
           </p>
 
@@ -61,7 +70,7 @@ function NewKanji({ word }) {
           </p>
           <small>
             <p>
-              <strong>Meaning Mnemonic:</strong>
+              <strong>Meaning mnemonic:</strong>
             </p>
             <p>{word.radicals_icon}</p>
             <p>{word.meaning_mnemonic}</p>
@@ -69,7 +78,7 @@ function NewKanji({ word }) {
               <i>{word.meaning_info}</i>
             </p>
             <p>
-              <strong>Reading Mnemonic:</strong>
+              <strong>Reading mnemonic:</strong>
             </p>
             <p>{word.reading_mnemonic}</p>
             <p>
@@ -85,8 +94,11 @@ function NewKanji({ word }) {
             type="text"
             value={answer}
             onChange={(e) => {
-              console.log(e.target.value);
-              setAnswer(e.target.value);
+              // setAnswer(e.target.value);
+              store.dispatch({
+                type: "card/setAnswer",
+                payload: e.target.value,
+              });
             }}
           ></input>
           <button

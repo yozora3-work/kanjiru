@@ -5,7 +5,7 @@
 }
 .card {
   height: 25rem;
-  min-width: 40rem;
+  width: 40rem;
   overflow-y: auto;
   font-size: x-large;
   padding: 0rem 2rem;

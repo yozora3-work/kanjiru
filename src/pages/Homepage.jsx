@@ -8,8 +8,9 @@ function Homepage() {
       <Header />
       <Container>
         <h1>
-          It's a perfect time to start learning,
-          <br /> don't you think? 🎓
+          It's a great moment to start learning Japanese!
+          <br />
+          <br /> Don't you think so?
         </h1>
       </Container>
       <Footer />

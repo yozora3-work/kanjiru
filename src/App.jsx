@@ -5,7 +5,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import PageNotFound from "./pages/PageNotFound";
-import Vocabulary from "./pages/vocabulary";
+import Vocabulary from "./pages/Vocabulary";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const CardView = lazy(() => import("./pages/CardView"));
@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route index element={<Homepage />} />
           <Route
-            path="cards/:learn"
+            path="cards/learn"
             element={
               <Provider store={store}>
                 <CardView actionType="learn" />
