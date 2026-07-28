@@ -72,7 +72,7 @@ function CardSelector() {
 
   return (
     <>
-      <h1>Какие карточки вы хотите изучить?</h1>
+      <h1>What type of cards do you want to learn?</h1>
       <form onSubmit={(e) => handleSubmit(e)} className="custom-study-box">
         <div className="box-medium border-bottom">
           <p>Learning Kanji or Vocabulary</p>

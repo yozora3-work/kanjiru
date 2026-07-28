@@ -12,15 +12,17 @@ function Vocabulary() {
   const [searchField, setSearchField] = useState("");
 
   async function searchData() {
-    const data = await getCards({
+    await getCards({
       customStudyLevels: "all",
       customStudyKanji: true,
       customStudyReading: true,
       kanji: searchField,
+    }).then((data) => {
+      if (!searchField) {
+        setVocabData(data.kanjiData.reading);
+      } else setVocabData(data);
+      goToPage(1);
     });
-    goToPage(1);
-    if (!searchField) return;
-    setVocabData(data);
   }
 
   const {
