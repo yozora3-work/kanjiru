@@ -1,12 +1,11 @@
 //Get Data
 export async function getCards(options) {
-  const url = `/api/cards`;
+  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards`;
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(options),
   });
-
   if (!res.ok) throw new Error(`Error while fetching data: ${res.status}`);
 
   const data = await res.json();
@@ -14,7 +13,7 @@ export async function getCards(options) {
 }
 
 export async function createCard(options) {
-  const url = `/api/cards`;
+  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards`;
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -28,7 +27,7 @@ export async function createCard(options) {
 }
 
 export async function updateCard(id, options) {
-  const url = `/api/cards/${id}`;
+  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards/${id}`;
   const res = await fetch(url, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -42,7 +41,7 @@ export async function updateCard(id, options) {
 }
 
 export async function removeCard(id) {
-  const url = `/api/cards/${id}`;
+  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards/${id}`;
   const res = await fetch(url, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

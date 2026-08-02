@@ -1,7 +1,7 @@
+import express from "express";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
-import express from "express";
 import {
   getData,
   updateData,
@@ -15,6 +15,7 @@ const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("dbtest.db");
 
 const app = express();
+
 app.use(cors());
 app.use(
   helmet({

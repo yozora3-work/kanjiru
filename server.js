@@ -1,7 +1,6 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-
-const app = require("./app").default;
+import app from "./api/index.js";
 
 const sqlite3 = require("sqlite3").verbose();
 // eslint-disable-next-line no-unused-vars
@@ -12,7 +11,7 @@ const db = new sqlite3.Database("dbtest.db", (err) => {
   console.log("Connected to the database.");
 });
 
-const port = 5174;
+const port = 5173;
 
 // eslint-disable-next-line no-unused-vars
 const server = app.listen(port, () =>

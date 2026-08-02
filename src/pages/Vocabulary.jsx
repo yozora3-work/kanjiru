@@ -43,7 +43,6 @@ function Vocabulary() {
       })
         .then((data) => {
           setVocabData(data.kanjiData.reading);
-          console.log(data);
         })
         .catch((error) => {
           console.log(error);
