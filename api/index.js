@@ -8,7 +8,6 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const cors = require("cors");
 
-// ✅ Import your data functions
 import {
   getData,
   updateData,
@@ -21,12 +20,30 @@ const app = express();
 app.use(express.json());
 
 // CORS
+const isProduction = process.env.VERCEL_ENV === "production";
+const allowedOrigins = ["https://kanjiru-eight.vercel.app"];
+
+if (process.env.VERCEL_URL) {
+  const vercelUrl = `https://${process.env.VERCEL_URL}`;
+  if (!allowedOrigins.includes(vercelUrl)) {
+    allowedOrigins.push(vercelUrl);
+  }
+}
+
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? "https://kanjiru.vercel.app"
-        : `http://localhost:5173`,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (!isProduction) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log(`Blocked CORS request from: ${origin}`);
+        callback(new Error(`Not allowed by CORS: ${origin}`));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

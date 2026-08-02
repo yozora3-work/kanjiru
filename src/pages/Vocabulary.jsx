@@ -72,10 +72,10 @@ function Vocabulary() {
           <thead>
             <tr>
               <th></th>
-              <th>Кандзи</th>
-              <th>Онное чтение</th>
-              <th>Кунное чтение</th>
-              <th>Перевод</th>
+              <th>Kanji</th>
+              <th>On-Reading</th>
+              <th>Kun-Reading</th>
+              <th>Translation</th>
             </tr>
           </thead>
           <tbody>
