@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import store from "../../store";
 import { answerCard } from "../../features/cards/cardSlice";
 import Button from "../../components/Button";
+import { Send } from "lucide-react";
 
 function VocabCard({ word }) {
   const isAnswered = useSelector((state) => state.card.isAnswered);
