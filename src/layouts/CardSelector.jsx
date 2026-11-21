@@ -31,13 +31,6 @@ function CardSelector() {
     const customStudyVocab = formData.get("custom-study-vocab") === "on";
     const customStudyReading = formData.get("custom-study-reading") === "on";
     const customStudyWriting = formData.get("custom-study-writing") === "on";
-    console.log(
-      customStudyLevels,
-      customStudyKanji,
-      customStudyVocab,
-      customStudyReading,
-      customStudyWriting,
-    );
 
     //Processing form data, checking for bad input
     if (!customStudyKanji && !customStudyVocab) {

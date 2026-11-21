@@ -108,7 +108,6 @@ function NewKanji({ word }) {
             icon={<Send />}
             className="button-ui-action"
             onClick={() => store.dispatch(answerCard())}
-            
           />
         </div>
       )}
