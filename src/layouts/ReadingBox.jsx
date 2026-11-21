@@ -26,7 +26,7 @@ function ReadingBoxField({ text, number }) {
         {tesx.join(`${text["vocab"]}`)}
       </span> */}
       <p>
-        {tesx &&
+        {tesx.length > 0 &&
           tesx.map((el, i) =>
             el === text["vocab"] ? (
               <Kurigana text={text} key={i} />
