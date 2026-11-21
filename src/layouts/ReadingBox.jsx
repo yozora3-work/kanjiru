@@ -18,7 +18,7 @@ function Kurigana({ text }) {
 function ReadingBoxField({ text, number }) {
   const [showTranslation, setShowTranslation] = useState(false);
   const regex = new RegExp(`(${text["vocab"]})`, "gi");
-  const tesx = text[`vocab_context_jp_${number}`]?.split(regex);
+  const tesx = text[`vocab_context_jp_${number}`].split(regex);
 
   return (
     <div>
@@ -26,16 +26,20 @@ function ReadingBoxField({ text, number }) {
         {tesx.join(`${text["vocab"]}`)}
       </span> */}
       <p>
-        {tesx.map((el, i) =>
-          el === text["vocab"] ? (
-            <Kurigana text={text} key={i} />
-          ) : (
-            // <span key={i}>1</span>
-            <span onClick={() => setShowTranslation(!showTranslation)} key={i}>
-              {el}
-            </span>
-          ),
-        )}
+        {tesx &&
+          tesx.map((el, i) =>
+            el === text["vocab"] ? (
+              <Kurigana text={text} key={i} />
+            ) : (
+              // <span key={i}>1</span>
+              <span
+                onClick={() => setShowTranslation(!showTranslation)}
+                key={i}
+              >
+                {el}
+              </span>
+            ),
+          )}
         {showTranslation && (
           <span className="pop-fade-element">
             {text[`vocab_context_en_${number}`]}
