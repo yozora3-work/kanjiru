@@ -2,6 +2,8 @@ import { useSelector } from "react-redux";
 import store from "../../store";
 import { answerCard } from "../../features/cards/cardSlice";
 import checkAnswer from "../../services/checkAnswer";
+import Button from "../../components/Button";
+import { Send } from "lucide-react";
 
 function NewKanji({ word }) {
   const isAnswered = useSelector((state) => state.card.isAnswered);
@@ -101,12 +103,13 @@ function NewKanji({ word }) {
               });
             }}
           ></input>
-          <button
+          <Button
+            text="Answer"
+            icon={<Send />}
             className="button-ui-action"
             onClick={() => store.dispatch(answerCard())}
-          >
-            Answer
-          </button>
+            
+          />
         </div>
       )}
     </div>

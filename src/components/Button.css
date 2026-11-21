@@ -1,10 +1,20 @@
 button {
-  min-width: 8rem;
-  min-height: 2rem;
+  min-width: 7rem;
+  height: 2rem;
   border-radius: 1rem;
-  font-weight: 400;
   border: none;
   transition: background-color 0.3s ease;
+
+  svg {
+    vertical-align: bottom;
+    height: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  button {
+    min-width: 4rem;
+  }
 }
 
 button:hover {
@@ -16,10 +26,10 @@ button:hover {
 }
 
 .button-ui-action {
-  background-color: var(--color-green-0);
+  background-color: var(--color-green-1);
 }
 .button-ui-action:hover {
-  background-color: var(--color-green-1);
+  background-color: var(--color-green-0);
 }
 
 .button-ui-danger {
@@ -27,4 +37,20 @@ button:hover {
 }
 .button-ui-danger:hover {
   background-color: var(--color-red-1);
+}
+
+.full-text-btn {
+  display: inline;
+}
+.short-text-btn {
+  display: none;
+}
+
+@media (max-width: 400px) {
+  .full-text-btn {
+    display: none;
+  }
+  .short-text-btn {
+    display: inline;
+  }
 }

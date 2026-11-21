@@ -1,6 +1,13 @@
 import "./Button.css";
 
-function Button({ text, type, className, onClick, isLoading }) {
+function Button({
+  text,
+  type = "button",
+  className,
+  onClick,
+  isLoading,
+  icon,
+}) {
   return (
     <button
       type={type}
@@ -8,7 +15,15 @@ function Button({ text, type, className, onClick, isLoading }) {
       onClick={onClick}
       disabled={isLoading}
     >
-      {text}
+      {icon && !text && <span>{icon}</span>}
+      {text && !icon && <span>{text}</span>}
+
+      {text && icon && (
+        <>
+          <span className="full-text-btn">{text}</span>
+          <span className="short-text-btn">{icon}</span>
+        </>
+      )}
     </button>
   );
 }

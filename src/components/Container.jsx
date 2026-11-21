@@ -1,9 +1,5 @@
-function Container({ children }) {
-  return (
-    <div className="container-content">
-      <div className="container-parent">{children}</div>
-    </div>
-  );
+function Container({ children, className }) {
+  return <div className={`container-content ${className}`}>{children}</div>;
 }
 
 export default Container;

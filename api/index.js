@@ -87,7 +87,6 @@ const db = await getDb();
 
 // API routes
 app.post("/api/cards", async (req, res, next) => {
-  console.log("test");
   try {
     const data = await getData(db, req.body);
 

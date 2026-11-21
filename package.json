@@ -19,6 +19,7 @@
     "csv-parse": "^6.1.0",
     "express": "^5.1.0",
     "helmet": "^6.1.2",
+    "lucide-react": "^1.28.0",
     "nodemon": "^3.1.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

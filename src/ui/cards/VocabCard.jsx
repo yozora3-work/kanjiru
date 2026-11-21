@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import store from "../../store";
 import { answerCard } from "../../features/cards/cardSlice";
+import Button from "../../components/Button";
 
 function VocabCard({ word }) {
   const isAnswered = useSelector((state) => state.card.isAnswered);
@@ -41,12 +42,12 @@ function VocabCard({ word }) {
         <div>
           <h2>{word.type}</h2>
           <input placeholder="Answer" type="text"></input>
-          <button
+          <Button
+            text="Answer"
+            icon={<Send />}
             className="button-ui-action"
-            onClick={() => store.dispatch(answerCard(true))}
-          >
-            Answer
-          </button>
+            onClick={() => store.dispatch(answerCard())}
+          />
         </div>
       )}
     </div>

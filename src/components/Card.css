@@ -1,14 +1,15 @@
 .card-container {
   justify-self: center;
   text-align: center;
-  margin: 5rem 15rem;
+  min-width: 70%;
 }
 .card {
+  justify-self: center;
   height: 25rem;
-  width: 40rem;
+  width: 70%;
   overflow-y: auto;
   font-size: x-large;
-  padding: 0rem 2rem;
+  padding: 0 2rem;
   border: solid;
 }
 .card-answer-container {

@@ -12,7 +12,7 @@ function CardView({ actionType }) {
   return (
     <>
       <Header />
-      <Container>
+      <Container className="card-container">
         {!isFormed ? <CardSelector actionType={actionType} /> : <Card />}
       </Container>
       <Footer />

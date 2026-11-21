@@ -1,6 +1,9 @@
 //Get Data
 export async function getCards(options) {
-  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards`;
+  const baseUrl = import.meta.env.PROD
+    ? ""
+    : (import.meta.env.VITE_API_URL ?? "");
+  const url = `${baseUrl}/api/cards`;
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -13,7 +16,10 @@ export async function getCards(options) {
 }
 
 export async function createCard(options) {
-  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards`;
+  const baseUrl = import.meta.env.PROD
+    ? ""
+    : (import.meta.env.VITE_API_URL ?? "");
+  const url = `${baseUrl}/api/cards`;
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -27,7 +33,10 @@ export async function createCard(options) {
 }
 
 export async function updateCard(id, options) {
-  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards/${id}`;
+  const baseUrl = import.meta.env.PROD
+    ? ""
+    : (import.meta.env.VITE_API_URL ?? "");
+  const url = `${baseUrl}/api/cards/${id}`;
   const res = await fetch(url, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -41,7 +50,10 @@ export async function updateCard(id, options) {
 }
 
 export async function removeCard(id) {
-  const url = `${import.meta.env.NODE_ENV === "production" ? "" : import.meta.env.VITE_API_URL}/api/cards/${id}`;
+  const baseUrl = import.meta.env.PROD
+    ? ""
+    : (import.meta.env.VITE_API_URL ?? "");
+  const url = `${baseUrl}/api/cards/${id}`;
   const res = await fetch(url, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

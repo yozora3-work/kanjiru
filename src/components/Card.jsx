@@ -24,7 +24,7 @@ function Card() {
       {isFinished ? (
         <h1>Finished!</h1>
       ) : (
-        <div className="card-container">
+        <>
           {currentKanji.kanji && <NewKanji word={currentKanji} />}
           {currentKanji.vocab && <VocabCard word={currentKanji} />}
           {isAnswered && (
@@ -39,10 +39,9 @@ function Card() {
                 className="button-ui-action"
                 onClick={() => handleAnswer("easy")}
               />
-              {/* <button>Hard</button> */}
             </div>
           )}
-        </div>
+        </>
       )}
     </>
   );

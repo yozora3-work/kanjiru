@@ -6,6 +6,8 @@ import { getCards } from "../services/apiCards";
 import "./Vocabulary.css";
 import toast from "react-hot-toast";
 import usePagination from "../hooks/usePagination";
+import PageCounter from "../components/PageCounter";
+import SearchBar from "../components/SearchBar";
 
 function Vocabulary() {
   const [vocabData, setVocabData] = useState([]);
@@ -46,7 +48,7 @@ function Vocabulary() {
         })
         .catch((error) => {
           console.log(error);
-          toast.error("Ошибка при получении данных");
+          toast.error("Error while fetching data");
         });
     };
     fetchData();
@@ -56,18 +58,11 @@ function Vocabulary() {
     <>
       <Header />
       <Container>
-        <div className="search-container">
-          <input
-            className="search-input"
-            type="text"
-            value={searchField}
-            onChange={(e) => setSearchField(e.target.value)}
-            placeholder="Search"
-          />
-          <button className="search-btn" onClick={() => searchData()}>
-            Search
-          </button>
-        </div>
+        <SearchBar
+          searchField={searchField}
+          setSearchField={setSearchField}
+          searchData={searchData}
+        />
         <table>
           <thead>
             <tr>
@@ -91,22 +86,12 @@ function Vocabulary() {
               ))}
           </tbody>
         </table>
-        <button
-          className="pagination-btn"
-          disabled={currentPage === 1}
-          onClick={() => prevPage()}
-        >
-          Previous
-        </button>
-        <button
-          className="pagination-btn"
-          disabled={currentPage === totalPages}
-          onClick={() => {
-            nextPage();
-          }}
-        >
-          Next
-        </button>
+        <PageCounter
+          currentPage={currentPage}
+          totalPages={totalPages}
+          nextPage={nextPage}
+          prevPage={prevPage}
+        />
       </Container>
       <Footer />
     </>

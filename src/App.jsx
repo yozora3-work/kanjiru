@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import PageNotFound from "./pages/PageNotFound";
 import Vocabulary from "./pages/Vocabulary";
+import { LucideProvider } from "lucide-react";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const CardView = lazy(() => import("./pages/CardView"));
@@ -25,34 +26,36 @@ function App() {
       <BrowserRouter>
         {/* <Suspence></Suspence> */}
         <Toaster />
-        <Routes>
-          <Route index element={<Homepage />} />
-          <Route
-            path="cards/learn"
-            element={
-              <Provider store={store}>
-                <CardView actionType="learn" />
-              </Provider>
-            }
-          />
-          <Route
-            path="read"
-            element={
-              <Provider store={store}>
-                <ReadingPage />
-              </Provider>
-            }
-          />
-          <Route
-            path="vocabulary"
-            element={
-              <Provider store={store}>
-                <Vocabulary />
-              </Provider>
-            }
-          />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+        <LucideProvider>
+          <Routes>
+            <Route index element={<Homepage />} />
+            <Route
+              path="cards/learn"
+              element={
+                <Provider store={store}>
+                  <CardView actionType="learn" />
+                </Provider>
+              }
+            />
+            <Route
+              path="read"
+              element={
+                <Provider store={store}>
+                  <ReadingPage />
+                </Provider>
+              }
+            />
+            <Route
+              path="vocabulary"
+              element={
+                <Provider store={store}>
+                  <Vocabulary />
+                </Provider>
+              }
+            />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </LucideProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );
