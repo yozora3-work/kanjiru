@@ -47,7 +47,7 @@ function Vocabulary() {
           setVocabData(data.kanjiData.reading);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           toast.error("Error while fetching data");
         });
     };

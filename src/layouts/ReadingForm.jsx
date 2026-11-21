@@ -37,7 +37,7 @@ function ReadingForm() {
         dispatch(setFormData(data));
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         toast.error("No cards with selected options were found");
       });
   };

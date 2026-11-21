@@ -58,7 +58,7 @@ function CardSelector() {
         store.dispatch(setFormData(data));
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         toast.error("No cards were found with selected options");
       });
   };

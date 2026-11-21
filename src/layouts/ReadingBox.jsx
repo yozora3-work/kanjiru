@@ -19,7 +19,6 @@ function ReadingBoxField({ text, number }) {
   const [showTranslation, setShowTranslation] = useState(false);
   const regex = new RegExp(`(${text["vocab"]})`, "gi");
   const tesx = text[`vocab_context_jp_${number}`].split(regex);
-  console.log(tesx);
 
   return (
     <div>
